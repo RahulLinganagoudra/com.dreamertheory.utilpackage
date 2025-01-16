@@ -1,0 +1,12 @@
+{
+  "name": "com.dreamertheory.utilpackage",
+  "version": "1.0.0",
+  "displayName": "Dreamer's Utilities",
+  "description": "This is an easy package to save game data in JSON format.",
+  "unity": "2021.3",
+  "author": {
+    "name": "Shivanagouda L",
+    "email": "slinganagoudra@gmail.com"
+  },
+  "license": "MIT"
+}
