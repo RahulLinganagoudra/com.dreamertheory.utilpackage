@@ -15,6 +15,14 @@ namespace DT_Util
 				+ 2 * _1MinusT * t * mid
 				+ t * t * end;
 		}
+		public static Vector3 CubicBezier(Vector3 start, Vector3 mid, Vector3 end, float t)
+		{
+			float _1MinusT = 1 - t;
+
+			return _1MinusT * _1MinusT * start
+				+ 2 * _1MinusT * t * mid
+				+ t * t * end;
+		}
 		public static Vector2 Clamp(this Vector2 original, Vector2 min, Vector2 max)
 		{
 			return new Vector2(
