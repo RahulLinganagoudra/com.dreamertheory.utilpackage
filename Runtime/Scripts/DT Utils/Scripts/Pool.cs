@@ -29,11 +29,7 @@ namespace DT_Util
 			item.gameObject.SetActive(true);
 			return item;
 		}
-
-
-
-
-
+		
 		public void Reset()
 		{
 			pointer = 0;
