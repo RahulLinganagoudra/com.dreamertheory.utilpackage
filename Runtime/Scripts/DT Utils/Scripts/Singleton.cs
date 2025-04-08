@@ -10,13 +10,13 @@ namespace DT_Util
 		{
 			get
 			{
-				if (Instance == null)
-					Instance = FindAnyObjectByType<T>();
-				return Instance;
+				if (instance == null)
+					instance = FindAnyObjectByType<T>();
+				return instance;
 			}
 			protected set
 			{
-				Instance = value;
+				instance = value;
 			}
 		}
 
