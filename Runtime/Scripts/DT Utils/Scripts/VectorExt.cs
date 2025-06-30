@@ -7,6 +7,7 @@ namespace DT_Util
     /// </summary>
     public static class VectorExt
     {
+        public const float Rad = Mathf.PI * 2f;
         /// <summary>
         /// Computes a cubic Bézier curve with a given height.
         /// </summary>
@@ -178,6 +179,65 @@ namespace DT_Util
             if (direction.sqrMagnitude < 0.01f) return end;
             time = Mathf.Clamp(time, 0f, 1);
             return start + (time / direction.magnitude) * direction;
+        }
+        /// <summary>
+        /// Calculates the position of an object stacked in a line, given its index, a starting position, a direction, and a slot offset.
+        /// </summary>
+        /// <param name="index">The index of the object in the stack (0-based).</param>
+        /// <param name="startPosition">The starting position of the stack.</param>
+        /// <param name="direction">The direction in which to stack objects (should be normalized).</param>
+        /// <param name="slotOffset">The distance between each stacked object.</param>
+        /// <returns>The calculated position for the object at the given index.</returns>
+        public static Vector3 GetStackedPosition(int index, Vector3 startPosition, Vector3 direction, float slotOffset)
+        {
+            Vector3 offset = index * slotOffset * direction;
+            return startPosition + offset; // Apply rotation to the offset
+        }
+
+        /// <summary>
+        /// Calculates the position of an object stacked in a line, with an additional rotation applied to the stacking direction.
+        /// </summary>
+        /// <param name="index">The index of the object in the stack (0-based).</param>
+        /// <param name="position">The starting position of the stack.</param>
+        /// <param name="direction">The direction in which to stack objects (should be normalized).</param>
+        /// <param name="eulerRotation">Euler angles (in degrees) to rotate the stacking direction.</param>
+        /// <param name="slotOffset">The distance between each stacked object.</param>
+        /// <returns>The calculated position for the object at the given index, with rotation applied.</returns>
+        public static Vector3 GetStackedPosition(this Vector3 position, int index, Vector3 direction, Vector3 eulerRotation, float slotOffset)
+        {
+            Vector3 offset = index * slotOffset * direction;
+            Quaternion rotation = Quaternion.Euler(eulerRotation); // Convert Vector3 rotation to Quaternion
+            return position + rotation * offset; // Apply rotation to the offset
+        }
+
+        /// <summary>
+        /// Calculates a point along a spiral path at a given time parameter, with optional rotation and direction reversal.
+        /// </summary>
+        /// <param name="startPosition">The starting position of the spiral.</param>
+        /// <param name="t">The normalized time parameter (0 to 1) along the spiral.</param>
+        /// <param name="numberOfRopes">The number of spiral turns (affects the spiral's tightness).</param>
+        /// <param name="radius">The radius of the spiral.</param>
+        /// <param name="height">The total height of the spiral.</param>
+        /// <param name="eulerRotation">Euler angles (in degrees) to rotate the spiral.</param>
+        /// <param name="reverseDirection">If true, reverses the spiral's winding direction.</param>
+        /// <returns>The calculated position along the spiral at the given time.</returns>
+        public static Vector3 GetPointAtTime(this Vector3 startPosition, float t, int numberOfRopes, float radius, float height, Vector3 eulerRotation, bool reverseDirection = false)
+        {
+            float rad = Rad * numberOfRopes * t;
+            int directionMultiplier = reverseDirection ? -1 : 1;
+
+            // Compute local position in spiral
+            Vector3 localPos = new Vector3(
+                Mathf.Sin(rad * directionMultiplier) * radius,
+                Mathf.Lerp(height * numberOfRopes, 0, t),
+                Mathf.Cos(rad * directionMultiplier) * radius
+            );
+
+            // Apply rotation
+            Quaternion rotation = Quaternion.Euler(eulerRotation);
+            Vector3 rotatedPos = rotation * localPos;
+
+            return startPosition + rotatedPos;
         }
 
         /// <summary>

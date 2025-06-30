@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 namespace DT_Util
 {
-	public static class DT_Ext
+	public static class Float_Ext
 	{
 		public static float SQ(this float original)
 		{
