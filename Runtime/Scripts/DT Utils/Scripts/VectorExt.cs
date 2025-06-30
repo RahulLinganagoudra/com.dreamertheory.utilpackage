@@ -221,7 +221,7 @@ namespace DT_Util
         /// <param name="eulerRotation">Euler angles (in degrees) to rotate the spiral.</param>
         /// <param name="reverseDirection">If true, reverses the spiral's winding direction.</param>
         /// <returns>The calculated position along the spiral at the given time.</returns>
-        public static Vector3 GetPointAtTime(this Vector3 startPosition, float t, int numberOfRopes, float radius, float height, Vector3 eulerRotation, bool reverseDirection = false)
+        public static Vector3 GetSpiralPointAtTime(this Vector3 startPosition, float t, int numberOfRopes, float radius, float height, Vector3 eulerRotation, bool reverseDirection = false)
         {
             float rad = Rad * numberOfRopes * t;
             int directionMultiplier = reverseDirection ? -1 : 1;
